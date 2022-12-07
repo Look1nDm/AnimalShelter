@@ -2,6 +2,7 @@ package com.example.animalshelter.service;
 
 import com.example.animalshelter.configuration.ConfigurationBot;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final ConfigurationBot configurationBot;
@@ -50,6 +52,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         String answer = "Приветствую "+userName+" . Я бот-помощник приюта для собак." +
                 " Чтобы Вы хотели узнать?";
+        log.info("Ответили пользователю");
         sendMessage(chatId, answer);
     }
     private void sendMessage(Long chatId, String textToSend){
@@ -60,7 +63,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e){
-
+            log.error("Произошла ошибка "+e.getMessage());
         }
     }
 }
